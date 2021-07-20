@@ -1,10 +1,21 @@
 import { data } from "./data.js";
 
 const recipes = document.getElementById("recipes");
+const name_dropdown = document.getElementById("name_dropdown");
+
 console.log(data);
 
-function createRecipe(data) {
-  for (let i = 0; i < data.length; i++) {
+const filterName = data.filter((recipe) =>
+  recipe.name.toLowerCase().includes("coco")
+);
+console.log(filterName);
+const filterAppliance = filterName.filter((recipe) =>
+  recipe.appliance.toLowerCase().includes("blender")
+);
+console.log(filterAppliance);
+
+function createRecipe() {
+  for (let i = 0; i < filterName.length; i++) {
     const li = document.createElement("li");
 
     const recipe_photo = document.createElement("div");
@@ -61,4 +72,28 @@ function createRecipe(data) {
   }
 }
 
-createRecipe(data);
+createRecipe();
+
+
+function dropdown() {
+  for (let i = 0; i < data.length; i++) {
+    const optionNames = document.createElement("option");
+    optionNames.textContent = data[i].name;
+    optionNames.value = data[i].name;
+    name_dropdown.appendChild(optionNames);
+
+    document.addEventListener(
+      "input",
+      function (event) {
+        // Only run for #wizard select
+        if (event.target.id !== "name_dropdown") return;
+
+        if (event.target.value === event.target.value) {
+          console.log(event.target.value);
+        }
+      },
+      false
+    );
+  }
+}
+dropdown();
