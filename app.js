@@ -3,19 +3,50 @@ import { data } from "./data.js";
 const recipes = document.getElementById("recipes");
 const name_dropdown = document.getElementById("name_dropdown");
 
-console.log(data);
+function dropdown() {
+  for (let i = 0; i < data.length; i++) {
+    const optionNames = document.createElement("option");
+    optionNames.textContent = data[i].name;
+    optionNames.value = data[i].name;
+    name_dropdown.appendChild(optionNames);
+  }
+}
+dropdown();
 
-const filterName = data.filter((recipe) =>
-  recipe.name.toLowerCase().includes("coco")
+var dropdownValue = "";
+
+document.addEventListener(
+  "input",
+  function (event) {
+    if (event.target.id !== "name_dropdown") return;
+
+    if (event.target.value === event.target.value) {
+      dropdownValue = event.target.value;
+    }
+  },
+  false
 );
-console.log(filterName);
-const filterAppliance = filterName.filter((recipe) =>
-  recipe.appliance.toLowerCase().includes("blender")
+console.log(dropdownValue)
+//APPLIANCE
+const filterAppliance = data.filter((recipe) =>
+  recipe.appliance.includes(dropdownValue)
 );
-console.log(filterAppliance);
+console.log("APPLIANCE", filterAppliance);
+//USTENSILS
+const filterUstensils = filterAppliance.filter((recipe) =>
+  recipe.ustensils.includes("presse citron")
+);
+console.log("USTENSILS", filterUstensils);
+//Ingredients
+const filterIngredients = filterUstensils.filter((recipe) =>
+  recipe.ingredients
+    .map((ingredient) => ingredient.ingredient)
+    .includes("Sucre")
+);
+console.log("Ingredients", filterIngredients);
 
 function createRecipe() {
-  for (let i = 0; i < filterName.length; i++) {
+  for (let i = 0; i < filterAppliance.length; i++) {
     const li = document.createElement("li");
 
     const recipe_photo = document.createElement("div");
@@ -43,16 +74,18 @@ function createRecipe() {
     liIngredient.classList.add("liIngredient");
     spanDescription.classList.add("spanDescription");
 
-    nameFirstLine.textContent = data[i].name;
+    nameFirstLine.textContent = filterAppliance[i].name;
     spanLogoClock.innerHTML = '<i class="far fa-clock"></i>';
-    spanTime.textContent = data[i].time;
+    spanTime.textContent = filterAppliance[i].time;
     spanTimeMin.textContent = "min";
 
-    const toto = data[i].ingredients.map((ingredient) => ingredient.ingredient);
+    const toto = filterAppliance[i].ingredients.map(
+      (ingredient) => ingredient.ingredient
+    );
     // console.log(toto)
     liIngredient.textContent = toto;
 
-    spanDescription.textContent = data[i].description;
+    spanDescription.textContent = filterAppliance[i].description;
 
     spanFirstLine.appendChild(spanLogoClock);
     spanFirstLine.appendChild(spanTime);
@@ -73,27 +106,3 @@ function createRecipe() {
 }
 
 createRecipe();
-
-
-function dropdown() {
-  for (let i = 0; i < data.length; i++) {
-    const optionNames = document.createElement("option");
-    optionNames.textContent = data[i].name;
-    optionNames.value = data[i].name;
-    name_dropdown.appendChild(optionNames);
-
-    document.addEventListener(
-      "input",
-      function (event) {
-        // Only run for #wizard select
-        if (event.target.id !== "name_dropdown") return;
-
-        if (event.target.value === event.target.value) {
-          console.log(event.target.value);
-        }
-      },
-      false
-    );
-  }
-}
-dropdown();
