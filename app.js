@@ -2,9 +2,12 @@ import { data } from "./data.js";
 
 const recipes = document.getElementById("recipes");
 const name_dropdown = document.getElementById("name_dropdown");
+const name_dropdown_ustensils = document.getElementById(
+  "name_dropdown_ustensils"
+);
 const buttonValues = document.getElementById("buttonValues");
 
-function dropdown() {
+function dropdownApplaince() {
   for (let i = 0; i < data.length; i++) {
     const optionNames = document.createElement("option");
     optionNames.textContent = data[i].appliance;
@@ -12,7 +15,7 @@ function dropdown() {
     name_dropdown.appendChild(optionNames);
   }
   document.addEventListener("input", function (event) {
-    console.log(filterIngredients(data, event.target.value));
+    // console.log(filterIngredients(data, event.target.value));
 
     createRecipe(filterAppliance(data, event.target.value));
     //CREATE A BUTTON FOR DELETING THE LI
@@ -25,9 +28,34 @@ function dropdown() {
     buttonValues.appendChild(buttonValue);
   });
 }
-dropdown();
+dropdownApplaince();
 
+function dropdownUstensils() {
+  for (let i = 0; i < data.length; i++) {
+    const optionNames = document.createElement("option");
+    // console.log(data[i].ustensils);
+    for (let y = 0; y < data[i].ustensils.length; y++) {
+      // console.log(data[i].ustensils[y]);
+      optionNames.textContent = data[i].ustensils[y];
+      optionNames.value = data[i].ustensils[y];
+      name_dropdown_ustensils.appendChild(optionNames);
+    }
+  }
+  document.addEventListener("input", function (event) {
+    // console.log(filterUstensils(data, event.target.value));
 
+    createRecipe(filterUstensils(data, event.target.value));
+    //CREATE A BUTTON FOR DELETING THE LI
+    const buttonValue = document.createElement("button");
+    buttonValue.textContent = event.target.value;
+    buttonValue.addEventListener("click", (e) => {
+      document.querySelector("li").remove();
+    });
+
+    buttonValues.appendChild(buttonValue);
+  });
+}
+dropdownUstensils();
 
 //APPLIANCE
 function filterAppliance(data, value) {
@@ -62,7 +90,7 @@ function createRecipe(data) {
     const spanTimeMin = document.createElement("span");
     const divSecondLine = document.createElement("div");
     const ulIngredients = document.createElement("ul");
-    const liIngredient = document.createElement("li");
+
     const spanDescription = document.createElement("div");
 
     recipe_photo.classList.add("recipe_photo");
@@ -73,7 +101,7 @@ function createRecipe(data) {
     recipes.classList.add("Aaa_recipes_container");
     divSecondLine.classList.add("divSecondLine");
     ulIngredients.classList.add("ulIngredients");
-    liIngredient.classList.add("liIngredient");
+
     spanDescription.classList.add("spanDescription");
 
     nameFirstLine.textContent = data[i].name;
@@ -82,30 +110,21 @@ function createRecipe(data) {
     spanTimeMin.textContent = "min";
     spanDescription.textContent = data[i].description;
 
+    //INGREDIENTS CREATION
     const toto = data[i].ingredients.map((ingredient) => ingredient.ingredient);
-    // console.log(toto)
-    liIngredient.textContent = toto;
+    console.log(toto);
+    for (let i = 0; i < toto.length; i++) {
+      const liIngredient = document.createElement("li");
+      liIngredient.classList.add("liIngredient");
+      liIngredient.textContent = toto[i];
+      ulIngredients.appendChild(liIngredient);
+    }
 
-    // spanFirstLine.appendChild(spanLogoClock);
-    // spanFirstLine.appendChild(spanTime);
-    // spanFirstLine.appendChild(spanTimeMin);
     spanFirstLine.append(spanLogoClock, spanTime, spanTimeMin);
-
-    divFirstLine.appendChild(nameFirstLine);
-    divFirstLine.appendChild(spanFirstLine);
-    ulIngredients.appendChild(liIngredient);
-
-    divSecondLine.appendChild(ulIngredients);
-    divSecondLine.appendChild(spanDescription);
-
-    recipe_figcaption.appendChild(divFirstLine);
-    recipe_figcaption.appendChild(divSecondLine);
-    li.appendChild(recipe_photo);
-    li.appendChild(recipe_figcaption);
+    divFirstLine.append(nameFirstLine, spanFirstLine);
+    divSecondLine.append(ulIngredients, spanDescription);
+    recipe_figcaption.append(divFirstLine, divSecondLine);
+    li.append(recipe_photo, recipe_figcaption);
     recipes.appendChild(li);
   }
-}
-
-function resetRecipes() {
-  li.remove();
 }
