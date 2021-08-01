@@ -2,51 +2,54 @@ import { data } from "./data.js";
 
 const recipes = document.getElementById("recipes");
 const name_dropdown = document.getElementById("name_dropdown");
+const buttonValues = document.getElementById("buttonValues");
 
 function dropdown() {
   for (let i = 0; i < data.length; i++) {
     const optionNames = document.createElement("option");
-    optionNames.textContent = data[i].name;
-    optionNames.value = data[i].name;
+    optionNames.textContent = data[i].appliance;
+    optionNames.value = data[i].appliance;
     name_dropdown.appendChild(optionNames);
   }
+  document.addEventListener("input", function (event) {
+    console.log(filterIngredients(data, event.target.value));
+
+    createRecipe(filterAppliance(data, event.target.value));
+    //CREATE A BUTTON FOR DELETING THE LI
+    const buttonValue = document.createElement("button");
+    buttonValue.textContent = event.target.value;
+    buttonValue.addEventListener("click", (e) => {
+      document.querySelector("li").remove();
+    });
+
+    buttonValues.appendChild(buttonValue);
+  });
 }
 dropdown();
 
-var dropdownValue = "";
 
-document.addEventListener(
-  "input",
-  function (event) {
-    if (event.target.id !== "name_dropdown") return;
 
-    if (event.target.value === event.target.value) {
-      dropdownValue = event.target.value;
-    }
-  },
-  false
-);
-console.log(dropdownValue)
 //APPLIANCE
-const filterAppliance = data.filter((recipe) =>
-  recipe.appliance.includes(dropdownValue)
-);
-console.log("APPLIANCE", filterAppliance);
-//USTENSILS
-const filterUstensils = filterAppliance.filter((recipe) =>
-  recipe.ustensils.includes("presse citron")
-);
-console.log("USTENSILS", filterUstensils);
-//Ingredients
-const filterIngredients = filterUstensils.filter((recipe) =>
-  recipe.ingredients
-    .map((ingredient) => ingredient.ingredient)
-    .includes("Sucre")
-);
-console.log("Ingredients", filterIngredients);
+function filterAppliance(data, value) {
+  return data.filter((recipe) => recipe.appliance.includes(value));
+}
 
-function createRecipe() {
-  for (let i = 0; i < filterAppliance.length; i++) {
+//USTENSILS
+function filterUstensils(data, value) {
+  return data.filter((recipe) => recipe.ustensils.includes(value));
+}
+
+//INGREDIENTS
+function filterIngredients(data, value) {
+  return data.filter((recipe) =>
+    recipe.ingredients
+      .map((ingredient) => ingredient.ingredient)
+      .includes("Jus de citron")
+  );
+}
+
+function createRecipe(data) {
+  for (let i = 0; i < data.length; i++) {
     const li = document.createElement("li");
 
     const recipe_photo = document.createElement("div");
@@ -60,7 +63,6 @@ function createRecipe() {
     const divSecondLine = document.createElement("div");
     const ulIngredients = document.createElement("ul");
     const liIngredient = document.createElement("li");
-
     const spanDescription = document.createElement("div");
 
     recipe_photo.classList.add("recipe_photo");
@@ -74,22 +76,21 @@ function createRecipe() {
     liIngredient.classList.add("liIngredient");
     spanDescription.classList.add("spanDescription");
 
-    nameFirstLine.textContent = filterAppliance[i].name;
+    nameFirstLine.textContent = data[i].name;
     spanLogoClock.innerHTML = '<i class="far fa-clock"></i>';
-    spanTime.textContent = filterAppliance[i].time;
+    spanTime.textContent = data[i].time;
     spanTimeMin.textContent = "min";
+    spanDescription.textContent = data[i].description;
 
-    const toto = filterAppliance[i].ingredients.map(
-      (ingredient) => ingredient.ingredient
-    );
+    const toto = data[i].ingredients.map((ingredient) => ingredient.ingredient);
     // console.log(toto)
     liIngredient.textContent = toto;
 
-    spanDescription.textContent = filterAppliance[i].description;
+    // spanFirstLine.appendChild(spanLogoClock);
+    // spanFirstLine.appendChild(spanTime);
+    // spanFirstLine.appendChild(spanTimeMin);
+    spanFirstLine.append(spanLogoClock, spanTime, spanTimeMin);
 
-    spanFirstLine.appendChild(spanLogoClock);
-    spanFirstLine.appendChild(spanTime);
-    spanFirstLine.appendChild(spanTimeMin);
     divFirstLine.appendChild(nameFirstLine);
     divFirstLine.appendChild(spanFirstLine);
     ulIngredients.appendChild(liIngredient);
@@ -105,4 +106,6 @@ function createRecipe() {
   }
 }
 
-createRecipe();
+function resetRecipes() {
+  li.remove();
+}
