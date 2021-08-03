@@ -1,5 +1,46 @@
 import { data } from "./data.js";
 
+const myTab = [1, 17, 27, 15, 9, 35];
+console.log("1");
+console.log(myTab);
+console.log(data);
+
+function min10(list) {
+  return list.filter((val) => val >= 10);
+}
+console.log("2");
+
+console.log(min10(myTab));
+console.log(filterAppliance(data));
+
+function max20(list) {
+  return list.filter((val) => val <= 20);
+}
+console.log("3");
+console.log(max20(myTab));
+console.log(filterUstensils(data));
+
+const filtersTest = [min10, max20];
+const filtersTestRealDataArray = [filterAppliance, filterUstensils];
+
+let dataaa = myTab;
+let rataaa = data;
+
+filtersTest.forEach((filterFunction) => {
+  dataaa = filterFunction(dataaa);
+});
+
+filtersTestRealDataArray.forEach((filterFunctionn) => {
+  rataaa = filterFunctionn(rataaa);
+});
+console.log("4");
+console.log(dataaa);
+console.log(rataaa);
+
+
+
+
+
 const recipes = document.getElementById("recipes");
 const name_dropdown = document.getElementById("name_dropdown");
 const name_dropdown_ustensils = document.getElementById(
@@ -12,13 +53,17 @@ const buttonValues = document.getElementById("buttonValues");
 
 //----FILTER FUNCTIONS { filterAppliance, filterUstensils, filterIngredients }----
 //APPLIANCE
-function filterAppliance(data, value) {
-  return data.filter((recipe) => recipe.appliance.includes(value));
+function filterAppliance(data) {
+  return data.filter((recipe) => recipe.appliance.includes("Blender"));
 }
 
+const mafonction = (data) => {
+  return filterAppliance(data, "coco");
+};
+
 //USTENSILS
-function filterUstensils(data, value) {
-  return data.filter((recipe) => recipe.ustensils.includes(value));
+function filterUstensils(data) {
+  return data.filter((recipe) => recipe.ustensils.includes("presse citron"));
 }
 
 //INGREDIENTS
@@ -89,8 +134,9 @@ function dropdownIngredients() {
       name_dropdown_ingredients.appendChild(optionNames);
     }
   }
-  document.addEventListener("input", function (event) {
+  name_dropdown_ingredients.addEventListener("input", function (event) {
     createRecipe(filterIngredients(data, event.target.value));
+
     //CREATE A BUTTON FOR DELETING THE LI
     const buttonValue = document.createElement("button");
     buttonValue.textContent = event.target.value;
@@ -106,7 +152,6 @@ function dropdownIngredients() {
 dropdownApplaince();
 dropdownUstensils();
 dropdownIngredients();
-
 
 //----CREATION OF CARDS (array in argument)----
 function createRecipe(data) {
