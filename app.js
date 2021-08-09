@@ -1,69 +1,21 @@
 import { data } from "./data.js";
 
-const myTab = [1, 17, 27, 15, 9, 35];
-console.log("1");
-console.log(myTab);
-console.log(data);
-
-function min10(list) {
-  return list.filter((val) => val >= 10);
-}
-console.log("2");
-
-console.log(min10(myTab));
-console.log(filterAppliance(data));
-
-function max20(list) {
-  return list.filter((val) => val <= 20);
-}
-console.log("3");
-console.log(max20(myTab));
-console.log(filterUstensils(data));
-
-const filtersTest = [min10, max20];
-const filtersTestRealDataArray = [filterAppliance, filterUstensils];
-
-let dataaa = myTab;
-let rataaa = data;
-
-filtersTest.forEach((filterFunction) => {
-  dataaa = filterFunction(dataaa);
-});
-
-filtersTestRealDataArray.forEach((filterFunctionn) => {
-  rataaa = filterFunctionn(rataaa);
-});
-console.log("4");
-console.log(dataaa);
-console.log(rataaa);
-
-
-
-
-
 const recipes = document.getElementById("recipes");
-const name_dropdown = document.getElementById("name_dropdown");
-const name_dropdown_ustensils = document.getElementById(
-  "name_dropdown_ustensils"
-);
-const name_dropdown_ingredients = document.getElementById(
-  "name_dropdown_ingredients"
-);
-const buttonValues = document.getElementById("buttonValues");
+const appliance_dropdown = document.getElementById("appliance_dropdown");
+const ustensils_dropdown = document.getElementById("ustensils_dropdown");
+const ingredients_dropdown = document.getElementById("ingredients_dropdown");
+
+let filteredArray = data;
 
 //----FILTER FUNCTIONS { filterAppliance, filterUstensils, filterIngredients }----
 //APPLIANCE
-function filterAppliance(data) {
-  return data.filter((recipe) => recipe.appliance.includes("Blender"));
+function filterAppliance(data, value) {
+  return data.filter((recipe) => recipe.appliance.includes(value));
 }
 
-const mafonction = (data) => {
-  return filterAppliance(data, "coco");
-};
-
 //USTENSILS
-function filterUstensils(data) {
-  return data.filter((recipe) => recipe.ustensils.includes("presse citron"));
+function filterUstensils(data, value) {
+  return data.filter((recipe) => recipe.ustensils.includes(value));
 }
 
 //INGREDIENTS
@@ -75,83 +27,66 @@ function filterIngredients(data, value) {
   );
 }
 
-//----DROPDOWNS FUNCTIONS { dropdownApplaince, dropdownUstensils, dropdownIngredients }----
-function dropdownApplaince() {
-  for (let i = 0; i < data.length; i++) {
-    const optionNames = document.createElement("option");
-    optionNames.textContent = data[i].appliance;
-    optionNames.value = data[i].appliance;
-    name_dropdown.appendChild(optionNames);
-  }
-  document.addEventListener("input", function (event) {
-    // console.log(filterIngredients(data, event.target.value));
-    createRecipe(filterAppliance(data, event.target.value));
-    //CREATE A BUTTON FOR DELETING THE LI
-    const buttonValue = document.createElement("button");
-    buttonValue.textContent = event.target.value;
-    buttonValue.addEventListener("click", (e) => {
-      document.querySelector("li").remove();
-    });
+appliance_dropdown.addEventListener("input", function (event) {
+  console.log(filterAppliance(filteredArray, event.target.value));
+  filteredArray = filterAppliance(filteredArray, event.target.value);
+  return filteredArray;
 
-    buttonValues.appendChild(buttonValue);
-  });
+  // let filterFunctionsArray = [filterAppliance, filterUstensils, filterIngredients];
+  // filterFunctionsArray.forEach((filterFunction) => {
+  //   filteredArray = filterFunction(filteredArray, event.target.value);
+  // });
+});
+
+ustensils_dropdown.addEventListener("input", function (event) {
+  console.log(filterUstensils(filteredArray, event.target.value));
+  filteredArray = filterUstensils(filteredArray, event.target.value);
+  return filteredArray;
+});
+
+ingredients_dropdown.addEventListener("input", function (event) {
+  console.log(filterIngredients(filteredArray, event.target.value));
+  filteredArray = filterIngredients(filteredArray, event.target.value);
+  return filteredArray;
+});
+
+//----DROPDOWNS FUNCTIONS { dropdownApplaince, dropdownUstensils, dropdownIngredients }----
+function dropdownAppliance(data) {
+  // LOOP AND CREATE THE APPLIANCE DROPDOWN LIST
+  for (let i = 0; i < data.length; i++) {
+    const applianceOption = document.createElement("option");
+    applianceOption.textContent = data[i].appliance;
+    applianceOption.value = data[i].appliance;
+    appliance_dropdown.appendChild(applianceOption);
+  }
 }
 
-function dropdownUstensils() {
+function dropdownUstensils(data) {
   for (let i = 0; i < data.length; i++) {
     const optionNames = document.createElement("option");
-    // console.log(data[i].ustensils);
     for (let y = 0; y < data[i].ustensils.length; y++) {
-      // console.log(data[i].ustensils[y]);
       optionNames.textContent = data[i].ustensils[y];
       optionNames.value = data[i].ustensils[y];
-      name_dropdown_ustensils.appendChild(optionNames);
+      ustensils_dropdown.appendChild(optionNames);
     }
   }
-  document.addEventListener("input", function (event) {
-    // console.log(filterUstensils(data, event.target.value));
-
-    createRecipe(filterUstensils(data, event.target.value));
-    //CREATE A BUTTON FOR DELETING THE LI
-    const buttonValue = document.createElement("button");
-    buttonValue.textContent = event.target.value;
-    buttonValue.addEventListener("click", (e) => {
-      document.querySelector("li").remove();
-    });
-
-    buttonValues.appendChild(buttonValue);
-  });
 }
 
-function dropdownIngredients() {
+function dropdownIngredients(data) {
   for (let i = 0; i < data.length; i++) {
     const optionNames = document.createElement("option");
-    // console.log(data[i].ustensils);
     for (let y = 0; y < data[i].ingredients.length; y++) {
-      //  console.log(data[i].ingredients[y].ingredient);
       optionNames.textContent = data[i].ingredients[y].ingredient;
       optionNames.value = data[i].ingredients[y].ingredient;
-      name_dropdown_ingredients.appendChild(optionNames);
+      ingredients_dropdown.appendChild(optionNames);
     }
   }
-  name_dropdown_ingredients.addEventListener("input", function (event) {
-    createRecipe(filterIngredients(data, event.target.value));
-
-    //CREATE A BUTTON FOR DELETING THE LI
-    const buttonValue = document.createElement("button");
-    buttonValue.textContent = event.target.value;
-    buttonValue.addEventListener("click", (e) => {
-      document.querySelector("li").remove();
-    });
-
-    buttonValues.appendChild(buttonValue);
-  });
 }
 
 //----FUNCTIONS DECLARATIONS----
-dropdownApplaince();
-dropdownUstensils();
-dropdownIngredients();
+dropdownAppliance(filteredArray);
+dropdownUstensils(filteredArray);
+dropdownIngredients(filteredArray);
 
 //----CREATION OF CARDS (array in argument)----
 function createRecipe(data) {
@@ -190,7 +125,7 @@ function createRecipe(data) {
 
     //INGREDIENTS CREATION
     const toto = data[i].ingredients.map((ingredient) => ingredient.ingredient);
-    console.log(toto);
+    // console.log(toto);
     for (let i = 0; i < toto.length; i++) {
       const liIngredient = document.createElement("li");
       liIngredient.classList.add("liIngredient");
