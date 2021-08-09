@@ -20,18 +20,21 @@
         <img src="logoPetitsPlats.png" alt="logo petits plats" />
       </div>
     </header>
-    <div id="buttonValues">
-    <select name="names" id="appliance_dropdown">
-      <option value="">--Appliance--</option>
-    </select>
-    <select name="names" id="ustensils_dropdown">
-      <option value="">--Ustensils--</option>
-    </select>
-    <select name="names" id="ingredients_dropdown">
-      <option value="">--Ingredients--</option>
-    </select>
-  </div>
-
+    <div id="buttonValues"></div>
+    <div id="totoDiv">
+      <button id="ingredients_dropdown_button">
+        Ingredients <span class="fas fa-chevron-down"></span>
+      </button>
+      <div id="ingredients_dropdown"></div>
+      <button id="appliance_dropdown_button">
+        Appliance <span class="fas fa-chevron-down"></span>
+      </button>
+      <div id="appliance_dropdown"></div>
+      <button id="ustensils_dropdown_button">
+        Ustensils <span class="fas fa-chevron-down"></span>
+      </button>
+      <div id="ustensils_dropdown"></div>
+    </div>
     <ul id="recipes"></ul>
 
     <script type="module" src="./app.js"></script>
