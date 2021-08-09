@@ -6,6 +6,7 @@ const ustensils_dropdown = document.getElementById("ustensils_dropdown");
 const ingredients_dropdown = document.getElementById("ingredients_dropdown");
 
 let filteredArray = data;
+createRecipe(filteredArray);
 
 //----FILTER FUNCTIONS { filterAppliance, filterUstensils, filterIngredients }----
 //APPLIANCE
@@ -30,24 +31,22 @@ function filterIngredients(data, value) {
 appliance_dropdown.addEventListener("input", function (event) {
   console.log(filterAppliance(filteredArray, event.target.value));
   filteredArray = filterAppliance(filteredArray, event.target.value);
-  return filteredArray;
-
-  // let filterFunctionsArray = [filterAppliance, filterUstensils, filterIngredients];
-  // filterFunctionsArray.forEach((filterFunction) => {
-  //   filteredArray = filterFunction(filteredArray, event.target.value);
-  // });
+  recipes.innerHTML = "";
+  createRecipe(filteredArray);
 });
 
 ustensils_dropdown.addEventListener("input", function (event) {
   console.log(filterUstensils(filteredArray, event.target.value));
   filteredArray = filterUstensils(filteredArray, event.target.value);
-  return filteredArray;
+  recipes.innerHTML = "";
+  createRecipe(filteredArray);
 });
 
 ingredients_dropdown.addEventListener("input", function (event) {
   console.log(filterIngredients(filteredArray, event.target.value));
   filteredArray = filterIngredients(filteredArray, event.target.value);
-  return filteredArray;
+  recipes.innerHTML = "";
+  createRecipe(filteredArray);
 });
 
 //----DROPDOWNS FUNCTIONS { dropdownApplaince, dropdownUstensils, dropdownIngredients }----
@@ -63,8 +62,8 @@ function dropdownAppliance(data) {
 
 function dropdownUstensils(data) {
   for (let i = 0; i < data.length; i++) {
-    const optionNames = document.createElement("option");
     for (let y = 0; y < data[i].ustensils.length; y++) {
+      const optionNames = document.createElement("option");
       optionNames.textContent = data[i].ustensils[y];
       optionNames.value = data[i].ustensils[y];
       ustensils_dropdown.appendChild(optionNames);
@@ -74,8 +73,8 @@ function dropdownUstensils(data) {
 
 function dropdownIngredients(data) {
   for (let i = 0; i < data.length; i++) {
-    const optionNames = document.createElement("option");
     for (let y = 0; y < data[i].ingredients.length; y++) {
+      const optionNames = document.createElement("option");
       optionNames.textContent = data[i].ingredients[y].ingredient;
       optionNames.value = data[i].ingredients[y].ingredient;
       ingredients_dropdown.appendChild(optionNames);
