@@ -1,245 +1,143 @@
 import { data } from "./data.js";
+import {
+  filterRecipes,
+  getAllAppliances,
+  getAllIngredients,
+  getAllUstensils,
+} from "./filterRecipes.js";
+import { createDropdown } from "./dropdown.js";
 
-const recipes = document.getElementById("recipes");
-const appliance_dropdown = document.getElementById("appliance_dropdown");
-const ustensils_dropdown = document.getElementById("ustensils_dropdown");
-const ingredients_dropdown = document.getElementById("ingredients_dropdown");
-// const buttonValues = document.getElementById("buttonValues");
-const appliance_dropdown_button = document.getElementById(
-  "appliance_dropdown_button"
-);
-const ustensils_dropdown_button = document.getElementById(
-  "ustensils_dropdown_button"
-);
-const ingredients_dropdown_button = document.getElementById(
-  "ingredients_dropdown_button"
-);
+const parseQueryParams = () => {
+  return new URLSearchParams(window.location.search);
+};
 
-let filteredArray = data;
-createRecipe(filteredArray);
-
-//----RESET THEN CREATE THE DISPLAY OF THE VISUAL----
-function displayRecipe(array) {
-  recipes.innerHTML = "";
-  createRecipe(array);
-}
-
-//----FILTER FUNCTIONS { filterAppliance(array, value), filterUstensils(array, value), filterIngredients(array, value) }----
-//APPLIANCE
-function filterAppliance(data, value) {
-  return data.filter((recipe) => recipe.appliance.includes(value));
-}
-//USTENSILS
-function filterUstensils(data, value) {
-  return data.filter((recipe) => recipe.ustensils.includes(value));
-}
-//INGREDIENTS
-function filterIngredients(data, value) {
-  return data.filter((recipe) =>
-    recipe.ingredients
-      .map((ingredient) => ingredient.ingredient)
-      .includes(value)
+const stringifySearchParams = (searchParams) => {
+  const nonEmptySearchParams = Object.fromEntries(
+    Object.entries(searchParams).filter(([key, value]) =>
+      Array.isArray(value) ? value.length !== 0 : !!value
+    )
   );
-}
+  const search = new URLSearchParams(nonEmptySearchParams).toString();
+  return search ? `?${search}` : "";
+};
 
-//----DROPDOWNS FUNCTIONS { dropdownApplaince(array), dropdownUstensils(array), dropdownIngredients(array) }----
-function dropdownAppliance(data) {
-  // LOOP AND CREATE THE APPLIANCE DROPDOWN LIST
-  for (let i = 0; i < data.length; i++) {
-    const applianceOption = document.createElement("button");
-    applianceOption.textContent = data[i].appliance;
-    applianceOption.value = data[i].appliance;
-    appliance_dropdown.appendChild(applianceOption);
+const arrify = (value) => {
+  if (Array.isArray(value)) {
+    return value;
   }
-}
-function dropdownUstensils(data) {
-  for (let i = 0; i < data.length; i++) {
-    for (let y = 0; y < data[i].ustensils.length; y++) {
-      const optionNames = document.createElement("button");
-      optionNames.textContent = data[i].ustensils[y];
-      optionNames.value = data[i].ustensils[y];
-      ustensils_dropdown.appendChild(optionNames);
-    }
-  }
-}
-function dropdownIngredients(data) {
-  for (let i = 0; i < data.length; i++) {
-    for (let y = 0; y < data[i].ingredients.length; y++) {
-      const optionNames = document.createElement("button");
-      optionNames.textContent = data[i].ingredients[y].ingredient;
-      optionNames.value = data[i].ingredients[y].ingredient;
-      ingredients_dropdown.appendChild(optionNames);
-    }
-  }
-}
+  return [value];
+};
 
-//----FUNCTIONS DECLARATIONS----
-dropdownAppliance(filteredArray);
-dropdownUstensils(filteredArray);
-dropdownIngredients(filteredArray);
+const queryParams = parseQueryParams();
 
-let buttonFilteringByAppliance = [];
-let buttonFilteringByUstensils = [];
-let buttonFilteringByIngredients = [];
+const $recipeList = document.getElementById("recipes");
 
-//----CALLING THE DELETE VALUE VIA THE FILTER BUTTON----
-function FilteringAll() {
-  let aaa = data;
-  for (let i = 0; i < buttonFilteringByAppliance.length; i++) {
-    aaa = filterAppliance(aaa, buttonFilteringByAppliance[i]);
-  }
-  for (let i = 0; i < buttonFilteringByUstensils.length; i++) {
-    aaa = filterUstensils(aaa, buttonFilteringByUstensils[i]);
-  }
-  for (let i = 0; i < buttonFilteringByIngredients.length; i++) {
-    aaa = filterIngredients(aaa, buttonFilteringByIngredients[i]);
-  }
-  console.log(aaa);
-}
+const appliances = getAllAppliances(data);
+const selectedAppliances = new Set(
+  queryParams.get("appliances") ? arrify(queryParams.get("appliances")) : []
+);
 
-//----CALLING ACTIONS----
-// appliance_dropdown.addEventListener("input", function (event) {
-//   //  console.log(filterAppliance(filteredArray, event.target.value));
-//   filteredArray = filterAppliance(filteredArray, event.target.value);
-//   displayRecipe(filteredArray);
-//   //CREATE A BUTTON
-//   const buttonValue = document.createElement("button");
-//   buttonValue.style.color = "green";
-//   buttonValue.textContent = event.target.value;
-//   buttonFilteringByAppliance.push(event.target.value);
-//   console.log(buttonFilteringByAppliance);
+const ustensils = getAllUstensils(data);
+const selectedUstensils = new Set(
+  queryParams.get("ustensils") ? arrify(queryParams.get("ustensils")) : []
+);
 
-//   buttonValue.addEventListener("click", (e) => {
-//     // FilteringAll();
-//     console.log(event.target.value);
-//     buttonValue.remove();
-//     buttonFilteringByAppliance = buttonFilteringByAppliance.filter((n) => {
-//       return n != event.target.value;
-//     });
-//     console.log(buttonFilteringByAppliance);
-//   });
-//   buttonValues.appendChild(buttonValue);
-// });
+const ingredients = getAllIngredients(data);
+const selectedIngredients = new Set(
+  queryParams.get("ingredients") ? arrify(queryParams.get("ingredients")) : []
+);
 
-// ustensils_dropdown.addEventListener("input", function (event) {
-//   // console.log(filterUstensils(filteredArray, event.target.value));
-//   filteredArray = filterUstensils(filteredArray, event.target.value);
-//   displayRecipe(filteredArray);
-//   //CREATE A BUTTON
-//   const buttonValue = document.createElement("button");
-//   buttonValue.style.color = "orange";
-//   buttonValue.textContent = event.target.value;
-//   buttonFilteringByUstensils.push(event.target.value);
-//   buttonValue.addEventListener("click", (e) => {
-//     FilteringAll();
-//   });
-//   buttonValues.appendChild(buttonValue);
-// });
+const render = () => {
+  const searchParams = {
+    appliances: Array.from(selectedAppliances),
+    ustensils: Array.from(selectedUstensils),
+    ingredients: Array.from(selectedIngredients),
+  };
+  const search = stringifySearchParams(searchParams);
+  history.pushState(null, null, `${location.pathname}${search}`);
+  renderRecipes(filterRecipes(data, searchParams));
+};
 
-// ingredients_dropdown.addEventListener("input", function (event) {
-//   // console.log(filterIngredients(filteredArray, event.target.value));
-//   filteredArray = filterIngredients(filteredArray, event.target.value);
-//   displayRecipe(filteredArray);
-//   //CREATE A BUTTON
-//   const buttonValue = document.createElement("button");
-//   buttonValue.style.color = "blue";
-//   buttonValue.textContent = event.target.value;
-//   buttonFilteringByIngredients.push(event.target.value);
-//   buttonValue.addEventListener("click", (e) => {
-//     FilteringAll();
-//   });
-//   buttonValues.appendChild(buttonValue);
-// });
+render();
 
-//----FUNCTION IN ORDER TO OPEN AND CLOSE THE BUTTONS OF FILTER DROPDOWNS----
-function toggleApplianceDropdown(value) {
-  let totoUlToggle = document.getElementById(value);
-  if (totoUlToggle.style.display === "none") {
-    totoUlToggle.style.display = "grid";
-  } else {
-    totoUlToggle.style.display = "none";
-  }
-}
-
-//----STYLING THE DROPDOWNS----
-//----APPLIANCE----
-appliance_dropdown.style.display = "none";
-appliance_dropdown_button.addEventListener("click", () => {
-  toggleApplianceDropdown("appliance_dropdown");
-});
-appliance_dropdown.addEventListener("click", function (event) {
-  filteredArray = filterAppliance(filteredArray, event.target.value);
-  displayRecipe(filteredArray);
-});
-//----USTENSILS----
-ustensils_dropdown.style.display = "none";
-ustensils_dropdown_button.addEventListener("click", () => {
-  toggleApplianceDropdown("ustensils_dropdown");
-});
-ustensils_dropdown.addEventListener("click", function (event) {
-  filteredArray = filterUstensils(filteredArray, event.target.value);
-  displayRecipe(filteredArray);
-});
-//----INGREDIENTS----
-ingredients_dropdown.style.display = "none";
-ingredients_dropdown_button.addEventListener("click", () => {
-  toggleApplianceDropdown("ingredients_dropdown");
-});
-ingredients_dropdown.addEventListener("click", function (event) {
-  filteredArray = filterIngredients(filteredArray, event.target.value);
-  displayRecipe(filteredArray);
+createDropdown({
+  $button: document.getElementById("appliance_dropdown_button"),
+  $list: document.getElementById("appliance_dropdown"),
+  values: appliances,
+  onSelect: (appliance) => {
+    selectedAppliances.add(appliance);
+    render();
+  },
 });
 
-//----CREATION OF CARDS (array in argument)----
-function createRecipe(data) {
-  for (let i = 0; i < data.length; i++) {
-    const li = document.createElement("li");
+createDropdown({
+  $button: document.getElementById("ustensils_dropdown_button"),
+  $list: document.getElementById("ustensils_dropdown"),
+  values: ustensils,
+  onSelect: (ustensil) => {
+    selectedUstensils.add(ustensil);
+    render();
+  },
+});
 
-    const recipe_photo = document.createElement("div");
-    const recipe_figcaption = document.createElement("div");
-    const divFirstLine = document.createElement("div");
-    const nameFirstLine = document.createElement("h2");
-    const spanFirstLine = document.createElement("div");
-    const spanLogoClock = document.createElement("span");
-    const spanTime = document.createElement("span");
-    const spanTimeMin = document.createElement("span");
-    const divSecondLine = document.createElement("div");
-    const ulIngredients = document.createElement("ul");
+createDropdown({
+  $button: document.getElementById("ingredients_dropdown_button"),
+  $list: document.getElementById("ingredients_dropdown"),
+  values: ingredients,
+  onSelect: (ingredient) => {
+    selectedIngredients.add(ingredient);
+    render();
+  },
+});
 
-    const spanDescription = document.createElement("div");
+function renderRecipe(recipe) {
+  const $recipeListItem = document.createElement("li");
+  $recipeListItem.className = "recipe-list-item";
 
-    recipe_photo.classList.add("recipe_photo");
-    recipe_figcaption.classList.add("recipe_figcaption");
-    divFirstLine.classList.add("divFirstLine");
-    spanFirstLine.classList.add("spanFirstLine");
-    li.classList.add("li");
-    recipes.classList.add("Aaa_recipes_container");
-    divSecondLine.classList.add("divSecondLine");
-    ulIngredients.classList.add("ulIngredients");
+  const $recipeListItemPicture = document.createElement("div");
+  $recipeListItemPicture.className = "recipe-list-item__picture";
+  $recipeListItem.appendChild($recipeListItemPicture);
 
-    spanDescription.classList.add("spanDescription");
+  const $recipeListItemContent = document.createElement("div");
+  $recipeListItemContent.className = "recipe-list-item__content";
+  $recipeListItem.appendChild($recipeListItemContent);
 
-    nameFirstLine.textContent = data[i].name;
-    spanLogoClock.innerHTML = '<i class="far fa-clock"></i>';
-    spanTime.textContent = data[i].time;
-    spanTimeMin.textContent = "min";
-    spanDescription.textContent = data[i].description;
+  const $recipeListItemCookingTime = document.createElement("span");
+  $recipeListItemCookingTime.className = "recipe-list-item__cooking-time";
+  const $clockIcon = document.createElement("i");
+  $clockIcon.className = "far fa-clock";
+  $recipeListItemCookingTime.appendChild($clockIcon);
+  $recipeListItemCookingTime.appendChild(
+    document.createTextNode(`${recipe.time} min`)
+  );
+  $recipeListItemContent.appendChild($recipeListItemCookingTime);
 
-    //INGREDIENTS CREATION
-    const toto = data[i].ingredients.map((ingredient) => ingredient.ingredient);
-    // console.log(toto);
-    for (let i = 0; i < toto.length; i++) {
-      const liIngredient = document.createElement("li");
-      liIngredient.classList.add("liIngredient");
-      liIngredient.textContent = toto[i];
-      ulIngredients.appendChild(liIngredient);
-    }
+  const $recipeListItemTitle = document.createElement("h2");
+  $recipeListItemTitle.className = "recipe-list-item__title";
+  $recipeListItemTitle.textContent = recipe.name;
+  $recipeListItemContent.appendChild($recipeListItemTitle);
 
-    spanFirstLine.append(spanLogoClock, spanTime, spanTimeMin);
-    divFirstLine.append(nameFirstLine, spanFirstLine);
-    divSecondLine.append(ulIngredients, spanDescription);
-    recipe_figcaption.append(divFirstLine, divSecondLine);
-    li.append(recipe_photo, recipe_figcaption);
-    recipes.appendChild(li);
-  }
+  const $recipeIngredientList = document.createElement("ul");
+  $recipeIngredientList.className = "recipe-ingredient-list";
+  $recipeListItemContent.appendChild($recipeIngredientList);
+  recipe.ingredients.forEach(({ ingredient }) => {
+    const $recipeIngredientListItem = document.createElement("li");
+    $recipeIngredientListItem.className = "recipe-ingredient-list-item";
+    $recipeIngredientListItem.textContent = ingredient;
+    $recipeIngredientList.appendChild($recipeIngredientListItem);
+  });
+
+  const $recipeListItemDescription = document.createElement("p");
+  $recipeListItemDescription.className = "recipe-list-item__description";
+  $recipeListItemDescription.textContent = recipe.description;
+  $recipeListItemContent.appendChild($recipeListItemDescription);
+
+  return $recipeListItem;
+}
+
+function renderRecipes(recipes) {
+  $recipeList.innerHTML = "";
+  recipes.forEach((recipe) => {
+    $recipeList.appendChild(renderRecipe(recipe));
+  });
 }

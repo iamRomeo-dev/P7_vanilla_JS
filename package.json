@@ -1,0 +1,21 @@
+{
+  "name": "P7_vanilla_JS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/iamRomeo-dev/P7_vanilla_JS.git",
+  "author": "iamRomeo-dev <romeo.brilland@live.fr>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "jest": "^27.0.6"
+  }
+}
