@@ -44,7 +44,7 @@ function filterIngredients(data, value) {
       .includes(value)
   );
 }
-dropdownAppliance(filteredArray)
+dropdownAppliance(filteredArray);
 dropdownUstensils(filteredArray);
 dropdownIngredients(filteredArray);
 
@@ -93,9 +93,9 @@ appliance_dropdown_button.addEventListener("click", () => {
   toggleApplianceDropdown("appliance_dropdown");
 });
 appliance_dropdown.addEventListener("click", function (event) {
+  buttonFilteringByAppliance.push(event.target.value);
   FilteringAll();
   // CREATE BUTTON
-  buttonFilteringByAppliance.push(event.target.value);
 
   const $applianceValueButton = document.createElement("button");
   $applianceValueButton.className = "appliance-value-button";
@@ -132,9 +132,10 @@ ustensils_dropdown_button.addEventListener("click", () => {
   toggleApplianceDropdown("ustensils_dropdown");
 });
 ustensils_dropdown.addEventListener("click", function (event) {
+  buttonFilteringByUstensils.push(event.target.value);
+
   FilteringAll();
   // CREATE BUTTON
-  buttonFilteringByUstensils.push(event.target.value);
   const $ustensilValueButton = document.createElement("button");
   $ustensilValueButton.className = "ustensil-value-button";
   const $ustensilValue = document.createElement("span");
@@ -171,7 +172,6 @@ ingredients_dropdown_button.addEventListener("click", () => {
 ingredients_dropdown.addEventListener("click", function (event) {
   FilteringAll();
   // CREATE BUTTON
-  buttonFilteringByIngredients.push(event.target.value);
 
   const $ingredientValueButton = document.createElement("button");
   $ingredientValueButton.className = "ingredient-value-button";
