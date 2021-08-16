@@ -26,10 +26,8 @@ export function dropdownUstensils(data) {
       ustensilArray.push(data[i].ustensils[y]);
     }
   }
-  console.log(ustensilArray);
   let setUstensilArray = new Set(ustensilArray);
   let arrifySetUstensilArray = Array.from(setUstensilArray);
-  console.log(arrifySetUstensilArray[0]);
   for (let i = 0; i < arrifySetUstensilArray.length; i++) {
     const optionNames = document.createElement("button");
     optionNames.textContent = arrifySetUstensilArray[i];
@@ -44,10 +42,8 @@ export function dropdownIngredients(data) {
       ingredientArray.push(data[i].ingredients[y].ingredient);
     }
   }
-  console.log(ingredientArray);
   let setIngredientArray = new Set(ingredientArray);
   let arrifySetIngredientArray = Array.from(setIngredientArray);
-  console.log(arrifySetIngredientArray);
 
   for (let i = 0; i < arrifySetIngredientArray.length; i++) {
     const optionNames = document.createElement("button");
