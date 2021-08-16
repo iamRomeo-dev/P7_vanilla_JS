@@ -12,7 +12,7 @@ export function dropdownAppliance(data) {
   }
   let setApplianceArray = new Set(applianceArray);
   let arrifySetApplianceArray = Array.from(setApplianceArray);
-  // console.log(arrifySetApplianceArray);
+  //  console.log(arrifySetApplianceArray);
   for (let i = 0; i < arrifySetApplianceArray.length; i++) {
     const optionNames = document.createElement("button");
     optionNames.textContent = arrifySetApplianceArray[i];
@@ -62,9 +62,8 @@ export function dropdownIngredients(data) {
   }
   let setIngredientArray = new Set(ingredientArray);
   let arrifySetIngredientArray = Array.from(setIngredientArray);
-
   for (let i = 0; i < arrifySetIngredientArray.length; i++) {
-    const optionNames = document.createElement("select");
+    const optionNames = document.createElement("button");
     optionNames.textContent = arrifySetIngredientArray[i];
     optionNames.value = arrifySetIngredientArray[i];
     ingredients_dropdown.appendChild(optionNames);
