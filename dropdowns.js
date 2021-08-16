@@ -4,6 +4,7 @@ const ingredients_dropdown = document.getElementById("ingredients_dropdown");
 
 //----DROPDOWNS FUNCTIONS { dropdownApplaince(array), dropdownUstensils(array), dropdownIngredients(array) }----
 export function dropdownAppliance(data) {
+  
   let applianceArray = [];
   // SET THEN ARRIFY THE DATAS
   for (let y = 0; y < data.length; y++) {
@@ -63,9 +64,11 @@ export function dropdownIngredients(data) {
   let arrifySetIngredientArray = Array.from(setIngredientArray);
 
   for (let i = 0; i < arrifySetIngredientArray.length; i++) {
-    const optionNames = document.createElement("button");
+    const optionNames = document.createElement("select");
     optionNames.textContent = arrifySetIngredientArray[i];
     optionNames.value = arrifySetIngredientArray[i];
     ingredients_dropdown.appendChild(optionNames);
   }
 }
+
+
