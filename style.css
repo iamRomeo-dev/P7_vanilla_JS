@@ -143,3 +143,39 @@ body {
   background: transparent;
   color: white;
 }
+
+/* SEARCH BAR */
+.search {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  background-color: #e7e7e7;
+  margin-bottom: 2rem;
+}
+
+.searchTerm {
+  width: 100%;
+  border: transparent;
+  border-right: none;
+  padding: 5px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  opacity: 25%;
+  background-color: #e7e7e7;
+  padding-left: 2rem;
+}
+
+.searchTerm:focus {
+  color: #00b4cc;
+}
+
+.searchButton {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+  background-color: #e7e7e7;
+  border: none;
+}

@@ -1,4 +1,5 @@
 import { data } from "./data.js";
+import { searchBar } from "./searchBar.js";
 
 const $recipeList = document.getElementById("recipes");
 const appliance_dropdown = document.getElementById("appliance_dropdown");
@@ -17,7 +18,7 @@ const ingredients_dropdown_button = document.getElementById(
 
 let filteredArray = data;
 renderRecipes(filteredArray);
-
+searchBar(filteredArray);
 //----FILTER FUNCTIONS { filterAppliance(array, value), filterUstensils(array, value), filterIngredients(array, value) }----
 //APPLIANCE
 function filterAppliance(data, value) {
@@ -271,7 +272,7 @@ function renderRecipe(recipe) {
   return $recipeListItem;
 }
 
-function renderRecipes(recipes) {
+export function renderRecipes(recipes) {
   $recipeList.innerHTML = "";
   recipes.forEach((recipe) => {
     $recipeList.appendChild(renderRecipe(recipe));
