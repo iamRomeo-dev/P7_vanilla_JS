@@ -52,7 +52,7 @@ let buttonFilteringByAppliance = [];
 let buttonFilteringByUstensils = [];
 let buttonFilteringByIngredients = [];
 
-//----CALLING THE DELETE VALUE VIA THE FILTER BUTTON----
+//---- ----
 function FilteringAll() {
   let filteredArrayNew = data;
   for (let i = 0; i < buttonFilteringByAppliance.length; i++) {

@@ -43,10 +43,6 @@ export function renderRecipe(recipe) {
     const $recipeIngredientListItem = document.createElement("li");
     $recipeIngredientListItem.className = "recipe-ingredient-list-item";
     $recipeIngredientListItem.textContent = `${ingredient} : ${quantity}${unit}`;
-   
-
-
-
     $recipeIngredientList.appendChild($recipeIngredientListItem);
   });
 
