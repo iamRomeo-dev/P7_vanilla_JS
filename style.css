@@ -45,40 +45,31 @@ body {
   margin-right: 0.25rem;
 }
 
-.divFirstLine {
+.firstLine {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.spanFirstLine {
+.secondLine {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 5px;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: bold;
-}
-
-.divSecondLine {
-  display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 10px;
 }
 
-.ulIngredients {
+.recipe-ingredient-list {
   width: 50%;
   padding-left: 0;
 }
 
-.liIngredient {
+.recipe-ingredient-list-item {
   list-style-type: none;
   font-size: 12px;
   font-style: normal;
   font-weight: normal;
 }
 
-.spanDescription {
+.recipe-list-item__description {
   white-space: nowrap;
   display: inline-block;
   overflow: hidden;
@@ -94,15 +85,18 @@ body {
 }
 
 #ingredients_dropdown,
-#ingredients_dropdown_button {
+#ingredients_dropdown_button,
+.ingredient-value-button {
   background-color: #3282f7;
 }
 #appliance_dropdown,
-#appliance_dropdown_button {
+#appliance_dropdown_button,
+.appliance-value-button {
   background-color: #68d9a4;
 }
 #ustensils_dropdown,
-#ustensils_dropdown_button {
+#ustensils_dropdown_button,
+.ustensil-value-button {
   background-color: #ed6454;
 }
 
@@ -142,4 +136,68 @@ body {
   overflow: visible;
   background: transparent;
   color: white;
+}
+
+.ingredient-value-button,
+.appliance-value-button,
+.ustensil-value-button {
+  align-items: center;
+  padding: 0px 1.2em;
+  color: white;
+  width: 120px;
+  height: 45px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.ingredient-value-button svg,
+.appliance-value-button svg,
+.ustensil-value-button svg {
+padding-left: 1rem;
+padding-right: 1rem;
+}
+
+#buttonValues {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem
+}
+
+/* SEARCH BAR */
+.search {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  background-color: #e7e7e7;
+  margin-bottom: 2rem;
+}
+
+.searchTerm {
+  width: 100%;
+  border: transparent;
+  border-right: none;
+  padding: 5px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  opacity: 25%;
+  background-color: #e7e7e7;
+  padding-left: 2rem;
+}
+
+.searchTerm:focus {
+  color: #00b4cc;
+}
+
+.searchButton {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+  background-color: #e7e7e7;
+  border: none;
 }
