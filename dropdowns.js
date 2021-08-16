@@ -11,14 +11,30 @@ export function dropdownAppliance(data) {
   }
   let setApplianceArray = new Set(applianceArray);
   let arrifySetApplianceArray = Array.from(setApplianceArray);
-  // LOOP AND CREATE THE APPLIANCE DROPDOWN LIST
+  // console.log(arrifySetApplianceArray);
   for (let i = 0; i < arrifySetApplianceArray.length; i++) {
     const optionNames = document.createElement("button");
     optionNames.textContent = arrifySetApplianceArray[i];
     optionNames.value = arrifySetApplianceArray[i];
     appliance_dropdown.appendChild(optionNames);
   }
+
+  // const $searchBar = document.createElement("input");
+  // appliance_dropdown.appendChild($searchBar);
+
+  // $searchBar.addEventListener("keyup", (event) => {
+  //   const searchString = event.target.value;
+  //   if (searchString.length > 2) {
+  //     const filteredSearch = arrifySetApplianceArray.filter((filter) => {
+  //       return filter.includes(searchString);
+  //     });
+  //     // LOOP AND CREATE THE APPLIANCE DROPDOWN LIST
+  //     console.log(filteredSearch)
+
+  //   }
+  // });
 }
+
 export function dropdownUstensils(data) {
   let ustensilArray = [];
   for (let i = 0; i < data.length; i++) {
@@ -35,6 +51,7 @@ export function dropdownUstensils(data) {
     ustensils_dropdown.appendChild(optionNames);
   }
 }
+
 export function dropdownIngredients(data) {
   let ingredientArray = [];
   for (let i = 0; i < data.length; i++) {
