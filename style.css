@@ -50,19 +50,10 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-/* 
-.spanFirstLine {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 5px;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: bold;
-} */
 
 .secondLine {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 10px;
 }
 
@@ -94,15 +85,18 @@ body {
 }
 
 #ingredients_dropdown,
-#ingredients_dropdown_button {
+#ingredients_dropdown_button,
+.ingredient-value-button {
   background-color: #3282f7;
 }
 #appliance_dropdown,
-#appliance_dropdown_button {
+#appliance_dropdown_button,
+.appliance-value-button {
   background-color: #68d9a4;
 }
 #ustensils_dropdown,
-#ustensils_dropdown_button {
+#ustensils_dropdown_button,
+.ustensil-value-button {
   background-color: #ed6454;
 }
 
@@ -142,6 +136,34 @@ body {
   overflow: visible;
   background: transparent;
   color: white;
+}
+
+.ingredient-value-button,
+.appliance-value-button,
+.ustensil-value-button {
+  align-items: center;
+  padding: 0px 1.2em;
+  color: white;
+  width: 120px;
+  height: 45px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.ingredient-value-button svg,
+.appliance-value-button svg,
+.ustensil-value-button svg {
+padding-left: 1rem;
+padding-right: 1rem;
+}
+
+#buttonValues {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem
 }
 
 /* SEARCH BAR */
