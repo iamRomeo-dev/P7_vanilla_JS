@@ -45,12 +45,12 @@ body {
   margin-right: 0.25rem;
 }
 
-.divFirstLine {
+.firstLine {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
+/* 
 .spanFirstLine {
   display: flex;
   flex-wrap: nowrap;
@@ -58,27 +58,27 @@ body {
   font-size: 18px;
   font-style: normal;
   font-weight: bold;
-}
+} */
 
-.divSecondLine {
+.secondLine {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.ulIngredients {
+.recipe-ingredient-list {
   width: 50%;
   padding-left: 0;
 }
 
-.liIngredient {
+.recipe-ingredient-list-item {
   list-style-type: none;
   font-size: 12px;
   font-style: normal;
   font-weight: normal;
 }
 
-.spanDescription {
+.recipe-list-item__description {
   white-space: nowrap;
   display: inline-block;
   overflow: hidden;
