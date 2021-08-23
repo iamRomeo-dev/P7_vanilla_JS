@@ -7,6 +7,9 @@ export function dropdownAppliance(data) {
   const applianceContainer = document.createElement("div");
   applianceContainer.id = "appliance-container";
   appliance_dropdown.appendChild(applianceContainer);
+  const applianceOverlay = document.createElement("div");
+  applianceOverlay.id = "appliance-overlay";
+  appliance_dropdown.appendChild(applianceOverlay);
   let applianceArray = [];
   // SET THEN ARRIFY THE DATAS
   for (let y = 0; y < data.length; y++) {
@@ -14,7 +17,6 @@ export function dropdownAppliance(data) {
   }
   let setApplianceArray = new Set(applianceArray);
   let arrifySetApplianceArray = Array.from(setApplianceArray);
-  //  console.log(arrifySetApplianceArray);
   for (let i = 0; i < arrifySetApplianceArray.length; i++) {
     const optionNames = document.createElement("button");
     optionNames.textContent = arrifySetApplianceArray[i];
@@ -22,13 +24,22 @@ export function dropdownAppliance(data) {
     applianceContainer.appendChild(optionNames);
   }
 
-  dropdownSearchBar(arrifySetApplianceArray, applianceContainer, appliance_dropdown, "appliance_searchBar", "appliance");
+  dropdownSearchBar(
+    arrifySetApplianceArray,
+    applianceContainer,
+    appliance_dropdown,
+    "appliance_searchBar",
+    "appliance"
+  );
 }
 
 export function dropdownUstensils(data) {
   const ustensilContainer = document.createElement("div");
   ustensilContainer.id = "ustensil-container";
   ustensils_dropdown.appendChild(ustensilContainer);
+  const ustensilOverlay = document.createElement("div");
+  ustensilOverlay.id = "ustensil-overlay";
+  ustensils_dropdown.appendChild(ustensilOverlay);
   let ustensilArray = [];
   for (let i = 0; i < data.length; i++) {
     for (let y = 0; y < data[i].ustensils.length; y++) {
@@ -44,14 +55,22 @@ export function dropdownUstensils(data) {
     ustensilContainer.appendChild(optionNames);
   }
 
-  dropdownSearchBar(arrifySetUstensilArray, ustensilContainer, ustensils_dropdown, "ustensil_searchBar", "ustensil");
+  dropdownSearchBar(
+    arrifySetUstensilArray,
+    ustensilContainer,
+    ustensils_dropdown,
+    "ustensil_searchBar",
+    "ustensil"
+  );
 }
 
 export function dropdownIngredients(data) {
   const ingredientContainer = document.createElement("div");
   ingredientContainer.id = "ingredient-container";
-
   ingredients_dropdown.appendChild(ingredientContainer);
+  const ingredientOverlay = document.createElement("div");
+  ingredientOverlay.id = "ingredient-overlay";
+  ingredients_dropdown.appendChild(ingredientOverlay);
   let ingredientArray = [];
   for (let i = 0; i < data.length; i++) {
     for (let y = 0; y < data[i].ingredients.length; y++) {
@@ -67,23 +86,28 @@ export function dropdownIngredients(data) {
     ingredientContainer.appendChild(optionNames);
   }
 
-  dropdownSearchBar(arrifySetIngredientArray, ingredientContainer, ingredients_dropdown, "ingredient_searchBar", "ingredient");
+  dropdownSearchBar(
+    arrifySetIngredientArray,
+    ingredientContainer,
+    ingredients_dropdown,
+    "ingredient_searchBar",
+    "ingredient"
+  );
 }
 
 function dropdownSearchBar(array, area, position, id, placeholder) {
   const $searchBar = document.createElement("input");
   $searchBar.type = "search";
   $searchBar.id = id;
-  $searchBar.placeholder = "Rechercher par " + placeholder
+  $searchBar.placeholder = "Rechercher par " + placeholder;
   position.appendChild($searchBar);
   $searchBar.addEventListener("keyup", (event) => {
-    const searchString = event.target.value;
+    const searchString = event.target.value.toLowerCase();
     if (searchString.length > 2) {
       const filteredSearch = array.filter((filter) => {
-        return filter.includes(searchString);
+        return filter.toLowerCase().includes(searchString);
       });
       // LOOP AND CREATE THE APPLIANCE DROPDOWN LIST
-      console.log(filteredSearch);
       const optionNames = document.createElement("button");
       optionNames.textContent = filteredSearch;
       optionNames.value = filteredSearch;
@@ -91,7 +115,6 @@ function dropdownSearchBar(array, area, position, id, placeholder) {
 
       area.appendChild(optionNames);
     }
-    // console.log(searchString)
     if (searchString === "") {
       area.innerHTML = "";
 
