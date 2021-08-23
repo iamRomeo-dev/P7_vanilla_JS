@@ -18,5 +18,8 @@ export const searchBar = (filteredArray) => {
       });
       renderRecipes(filteredSearch);
     }
+    if (searchString === "") {
+      renderRecipes(filteredArray);
+    }
   });
 };
