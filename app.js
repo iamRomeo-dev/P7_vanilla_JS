@@ -58,9 +58,11 @@ const ingredient_overlay = document.getElementById("ingredient-overlay");
 let buttonFilteringByAppliance = [];
 let buttonFilteringByUstensils = [];
 let buttonFilteringByIngredients = [];
+
 //---- ----
 function FilteringAll() {
   let filteredArrayNew = data;
+
   for (let i = 0; i < buttonFilteringByAppliance.length; i++) {
     filteredArrayNew = filterAppliance(
       filteredArrayNew,
@@ -79,7 +81,11 @@ function FilteringAll() {
       buttonFilteringByIngredients[i]
     );
   }
-  renderRecipes(filteredArrayNew);
+  if (filteredArrayNew.length > 0) {
+    renderRecipes(filteredArrayNew);
+  } else {
+    $recipeList.innerHTML = "Aucune recette ne correspond à votre critère...";
+  }
 }
 
 //----FUNCTION IN ORDER TO OPEN AND CLOSE THE BUTTONS OF FILTER DROPDOWNS----
