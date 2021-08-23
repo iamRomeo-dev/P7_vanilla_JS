@@ -108,12 +108,15 @@ function dropdownSearchBar(array, area, position, id, placeholder) {
         return filter.toLowerCase().includes(searchString);
       });
       // LOOP AND CREATE THE APPLIANCE DROPDOWN LIST
-      const optionNames = document.createElement("button");
-      optionNames.textContent = filteredSearch;
-      optionNames.value = filteredSearch;
+      console.log(filteredSearch);
       area.innerHTML = "";
+      for (let i = 0; i < filteredSearch.length; i++) {
+        const optionNames = document.createElement("button");
+        optionNames.textContent = filteredSearch[i];
+        optionNames.value = filteredSearch[i];
 
-      area.appendChild(optionNames);
+        area.appendChild(optionNames);
+      }
     }
     if (searchString === "") {
       area.innerHTML = "";
