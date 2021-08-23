@@ -119,12 +119,29 @@ body {
 #appliance_dropdown,
 #ustensils_dropdown,
 #ingredients_dropdown {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: column-reverse;
   position: absolute;
   z-index: 1;
+}
+
+#appliance-container,
+#ustensil-container,
+#ingredient-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   list-style: none;
   border-radius: 0 0 1rem 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+#appliance_searchBar,
+#ustensil_searchBar,
+#ingredient_searchBar {
+  background-color: transparent;
+  border: none;
+  color: white;
 }
 
 #appliance_dropdown button,
@@ -156,14 +173,14 @@ body {
 .ingredient-value-button svg,
 .appliance-value-button svg,
 .ustensil-value-button svg {
-padding-left: 1rem;
-padding-right: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 #buttonValues {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1rem
+  margin-bottom: 1rem;
 }
 
 /* SEARCH BAR */
