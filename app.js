@@ -25,7 +25,18 @@ const ingredients_dropdown_button = document.getElementById(
 let filteredArray = data;
 renderRecipes(filteredArray);
 
-searchBar(filteredArray);
+const $searchBar = document.getElementById("searchBar");
+
+let toto = [];
+
+$searchBar.addEventListener("keyup", (event) => {
+  const searchString = event.target.value.toLowerCase();
+  if (searchString.length > 2) {
+    toto.push(searchBar(data, searchString));
+  }
+
+});
+
 
 //----FILTER FUNCTIONS { filterAppliance(array, string), filterUstensils(array, string), filterIngredients(array, string) }----
 //APPLIANCE
@@ -63,6 +74,8 @@ let buttonFilteringByIngredients = [];
 function FilteringAll() {
   let filteredArrayNew = data;
 
+  console.log(2222, toto);
+  
   for (let i = 0; i < buttonFilteringByAppliance.length; i++) {
     filteredArrayNew = filterAppliance(
       filteredArrayNew,
