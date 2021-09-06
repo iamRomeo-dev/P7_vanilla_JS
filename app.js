@@ -98,6 +98,52 @@ function FilteringAll() {
 
   if (filteredArrayNew.length > 0) {
     renderRecipes(filteredArrayNew);
+    //Re-render the dropdowns with only the remaining values possible
+    let applianceArray = [];
+    for (let y = 0; y < filteredArrayNew.length; y++) {
+      applianceArray.push(filteredArrayNew[y].appliance);
+    }
+    let setApplianceArray = new Set(applianceArray);
+    let arrifySetApplianceArray = Array.from(setApplianceArray);
+    appliance_container.innerHTML = "";
+    for (let i = 0; i < arrifySetApplianceArray.length; i++) {
+      const optionNames = document.createElement("button");
+      optionNames.textContent = arrifySetApplianceArray[i];
+      optionNames.value = arrifySetApplianceArray[i];
+      appliance_container.appendChild(optionNames);
+    }
+
+    let ustensilArray = [];
+    for (let i = 0; i < filteredArrayNew.length; i++) {
+      for (let y = 0; y < filteredArrayNew[i].ustensils.length; y++) {
+        ustensilArray.push(filteredArrayNew[i].ustensils[y]);
+      }
+    }
+    let setUstensilArray = new Set(ustensilArray);
+    let arrifySetUstensilArray = Array.from(setUstensilArray);
+    ustensil_container.innerHTML = "";
+    for (let i = 0; i < arrifySetUstensilArray.length; i++) {
+      const optionNames = document.createElement("button");
+      optionNames.textContent = arrifySetUstensilArray[i];
+      optionNames.value = arrifySetUstensilArray[i];
+      ustensil_container.appendChild(optionNames);
+    }
+
+    let ingredientArray = [];
+    for (let i = 0; i < filteredArrayNew.length; i++) {
+      for (let y = 0; y < filteredArrayNew[i].ingredients.length; y++) {
+        ingredientArray.push(filteredArrayNew[i].ingredients[y].ingredient);
+      }
+    }
+    let setIngredientArray = new Set(ingredientArray);
+    let arrifySetIngredientArray = Array.from(setIngredientArray);
+    ingredient_container.innerHTML = "";
+    for (let i = 0; i < arrifySetIngredientArray.length; i++) {
+      const optionNames = document.createElement("button");
+      optionNames.textContent = arrifySetIngredientArray[i];
+      optionNames.value = arrifySetIngredientArray[i];
+      ingredient_container.appendChild(optionNames);
+    }
   } else {
     $recipeList.innerHTML = "Aucune recette ne correspond à votre critère...";
   }
@@ -157,7 +203,6 @@ $searchBar.addEventListener("keyup", (event) => {
         buttonFilteringByIngredients[i]
       );
     }
-    console.log(filteredArraySearchNewFormat2);
     for (let i = 0; i < filteredArraySearchNewFormat2.length; i++) {
       filteredArrayNew = filterSearchBar(
         filteredArrayNew,
@@ -167,13 +212,65 @@ $searchBar.addEventListener("keyup", (event) => {
 
     if (filteredArrayNew.length > 0) {
       renderRecipes(filteredArrayNew);
+      //Re-render the dropdowns with only the remaining values possible
+      let applianceArray = [];
+      for (let y = 0; y < filteredArrayNew.length; y++) {
+        applianceArray.push(filteredArrayNew[y].appliance);
+      }
+      let setApplianceArray = new Set(applianceArray);
+      let arrifySetApplianceArray = Array.from(setApplianceArray);
+      appliance_container.innerHTML = "";
+      for (let i = 0; i < arrifySetApplianceArray.length; i++) {
+        const optionNames = document.createElement("button");
+        optionNames.textContent = arrifySetApplianceArray[i];
+        optionNames.value = arrifySetApplianceArray[i];
+        appliance_container.appendChild(optionNames);
+      }
+
+      let ustensilArray = [];
+      for (let i = 0; i < filteredArrayNew.length; i++) {
+        for (let y = 0; y < filteredArrayNew[i].ustensils.length; y++) {
+          ustensilArray.push(filteredArrayNew[i].ustensils[y]);
+        }
+      }
+      let setUstensilArray = new Set(ustensilArray);
+      let arrifySetUstensilArray = Array.from(setUstensilArray);
+      ustensil_container.innerHTML = "";
+      for (let i = 0; i < arrifySetUstensilArray.length; i++) {
+        const optionNames = document.createElement("button");
+        optionNames.textContent = arrifySetUstensilArray[i];
+        optionNames.value = arrifySetUstensilArray[i];
+        ustensil_container.appendChild(optionNames);
+      }
+
+      let ingredientArray = [];
+      for (let i = 0; i < filteredArrayNew.length; i++) {
+        for (let y = 0; y < filteredArrayNew[i].ingredients.length; y++) {
+          ingredientArray.push(filteredArrayNew[i].ingredients[y].ingredient);
+        }
+      }
+      let setIngredientArray = new Set(ingredientArray);
+      let arrifySetIngredientArray = Array.from(setIngredientArray);
+      ingredient_container.innerHTML = "";
+      for (let i = 0; i < arrifySetIngredientArray.length; i++) {
+        const optionNames = document.createElement("button");
+        optionNames.textContent = arrifySetIngredientArray[i];
+        optionNames.value = arrifySetIngredientArray[i];
+        ingredient_container.appendChild(optionNames);
+      }
     } else {
       $recipeList.innerHTML = "Aucune recette ne correspond à votre critère...";
     }
   }
 
   if (searchString === "") {
-    renderRecipes(filteredArray);
+    if (
+      buttonFilteringByAppliance.length === 0 &&
+      buttonFilteringByUstensils.length === 0 &&
+      buttonFilteringByIngredients.length === 0
+    ) {
+      renderRecipes(data);
+    }
   }
 });
 
@@ -185,6 +282,7 @@ appliance_dropdown_button.addEventListener("click", () => {
 appliance_container.addEventListener("click", function (event) {
   buttonFilteringByAppliance.push(event.target.value);
   FilteringAll();
+
   // CREATE BUTTON
   const $applianceValueButton = document.createElement("button");
   $applianceValueButton.className = "appliance-value-button";
