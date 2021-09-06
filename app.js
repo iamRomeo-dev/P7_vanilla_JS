@@ -43,7 +43,6 @@ function filterIngredients(data, value) {
       .includes(value)
   );
 }
-//SEARCH BAR
 function filterSearchBar(data, value) {
   return data.filter((recipe) => {
     return (
@@ -169,8 +168,6 @@ ingredient_overlay.addEventListener("click", () => {
   ingredients_dropdown.style.display = "none";
 });
 
-//----ACTION THE SEARCH FUNCTIONS----
-//----SEARCH BAR----
 $searchBar.addEventListener("keyup", (event) => {
   const searchString = event.target.value.toLowerCase();
   if (searchString.length > 2) {
@@ -204,9 +201,21 @@ $searchBar.addEventListener("keyup", (event) => {
         buttonFilteringByIngredients[i]
       );
     }
+
+    //Divide the array by 2
+    const middleIndex = Math.ceil(filteredArrayNew.length / 2);
+    const firstHalf = filteredArrayNew.slice().splice(0, middleIndex);
+    const secondHalf = filteredArrayNew.slice().splice(-middleIndex);
+    //EO Divide the array by 2
     for (let i = 0; i < filteredArraySearchNewFormat2.length; i++) {
       filteredArrayNew = filterSearchBar(
-        filteredArrayNew,
+        firstHalf,
+        filteredArraySearchNewFormat2[i]
+      );
+    }
+    for (let i = 0; i < filteredArraySearchNewFormat2.length; i++) {
+      filteredArrayNew = filterSearchBar(
+        secondHalf,
         filteredArraySearchNewFormat2[i]
       );
     }
