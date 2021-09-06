@@ -43,6 +43,7 @@ function filterIngredients(data, value) {
       .includes(value)
   );
 }
+//SEARCH BAR
 function filterSearchBar(data, value) {
   return data.filter((recipe) => {
     return (
@@ -270,6 +271,8 @@ $searchBar.addEventListener("keyup", (event) => {
       buttonFilteringByIngredients.length === 0
     ) {
       renderRecipes(data);
+    } else {
+      FilteringAll();
     }
   }
 });
