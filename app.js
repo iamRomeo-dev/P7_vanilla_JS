@@ -1,5 +1,4 @@
 import { data } from "./data.js";
-import { searchBar } from "./searchBar.js";
 import {
   dropdownAppliance,
   dropdownUstensils,
@@ -21,28 +20,17 @@ const ustensils_dropdown_button = document.getElementById(
 const ingredients_dropdown_button = document.getElementById(
   "ingredients_dropdown_button"
 );
+const $searchBar = document.getElementById("searchBar");
 
 let filteredArray = data;
 renderRecipes(filteredArray);
 
-const $searchBar = document.getElementById("searchBar");
-
-let toto = [];
-
-$searchBar.addEventListener("keyup", (event) => {
-  const searchString = event.target.value.toLowerCase();
-  if (searchString.length > 2) {
-    toto.push(searchBar(data, searchString));
-  }
-
-});
-
-
-//----FILTER FUNCTIONS { filterAppliance(array, string), filterUstensils(array, string), filterIngredients(array, string) }----
+//----FILTER FUNCTIONS { filterAppliance(array, string), filterUstensils(array, string), filterIngredients(array, string), filterSearchBar(data, string) }----
 //APPLIANCE
 function filterAppliance(data, value) {
   return data.filter((recipe) => recipe.appliance.includes(value));
 }
+
 //USTENSILS
 function filterUstensils(data, value) {
   return data.filter((recipe) => recipe.ustensils.includes(value));
@@ -55,6 +43,19 @@ function filterIngredients(data, value) {
       .includes(value)
   );
 }
+function filterSearchBar(data, value) {
+  return data.filter((recipe) => {
+    return (
+      recipe.name.toLowerCase().includes(value.toLowerCase()) ||
+      recipe.description.toLowerCase().includes(value.toLowerCase()) ||
+      recipe.ingredients
+        .map((ingredient) => ingredient.ingredient.toLowerCase())
+        .includes(value.toLowerCase())
+    );
+  });
+}
+
+//Set the dropdowns
 dropdownAppliance(filteredArray);
 dropdownUstensils(filteredArray);
 dropdownIngredients(filteredArray);
@@ -66,16 +67,16 @@ const appliance_overlay = document.getElementById("appliance-overlay");
 const ustensil_overlay = document.getElementById("ustensil-overlay");
 const ingredient_overlay = document.getElementById("ingredient-overlay");
 
+//Arrays of key words for search
 let buttonFilteringByAppliance = [];
 let buttonFilteringByUstensils = [];
 let buttonFilteringByIngredients = [];
+let filteredArraySearch = [];
 
-//---- ----
+//Function for filtering used in with dropdowns
 function FilteringAll() {
   let filteredArrayNew = data;
 
-  console.log(2222, toto);
-  
   for (let i = 0; i < buttonFilteringByAppliance.length; i++) {
     filteredArrayNew = filterAppliance(
       filteredArrayNew,
@@ -94,6 +95,7 @@ function FilteringAll() {
       buttonFilteringByIngredients[i]
     );
   }
+
   if (filteredArrayNew.length > 0) {
     renderRecipes(filteredArrayNew);
   } else {
@@ -110,7 +112,6 @@ function toggleApplianceDropdown(value) {
     dropdownToggle.style.display = "none";
   }
 }
-
 appliance_overlay.addEventListener("click", () => {
   appliance_dropdown.style.display = "none";
 });
@@ -121,7 +122,61 @@ ingredient_overlay.addEventListener("click", () => {
   ingredients_dropdown.style.display = "none";
 });
 
-//----ACTION THE DROPDOWNS----
+//----ACTION THE SEARCH FUNCTIONS----
+//----SEARCH BAR----
+$searchBar.addEventListener("keyup", (event) => {
+  const searchString = event.target.value.toLowerCase();
+  if (searchString.length > 2) {
+    filteredArraySearch.push(searchString);
+    //Format the array in order to keep just the last item (so the full search bar)
+    const filteredArraySearchNewFormat =
+      filteredArraySearch[filteredArraySearch.length - 1];
+
+    //Split the array in order to put each words inside an item
+    var filteredArraySearchNewFormat2 =
+      filteredArraySearchNewFormat.split(/(\s+)/);
+
+    //Function filtering all
+    let filteredArrayNew = data;
+
+    for (let i = 0; i < buttonFilteringByAppliance.length; i++) {
+      filteredArrayNew = filterAppliance(
+        filteredArrayNew,
+        buttonFilteringByAppliance[i]
+      );
+    }
+    for (let i = 0; i < buttonFilteringByUstensils.length; i++) {
+      filteredArrayNew = filterUstensils(
+        filteredArrayNew,
+        buttonFilteringByUstensils[i]
+      );
+    }
+    for (let i = 0; i < buttonFilteringByIngredients.length; i++) {
+      filteredArrayNew = filterIngredients(
+        filteredArrayNew,
+        buttonFilteringByIngredients[i]
+      );
+    }
+    console.log(filteredArraySearchNewFormat2);
+    for (let i = 0; i < filteredArraySearchNewFormat2.length; i++) {
+      filteredArrayNew = filterSearchBar(
+        filteredArrayNew,
+        filteredArraySearchNewFormat2[i]
+      );
+    }
+
+    if (filteredArrayNew.length > 0) {
+      renderRecipes(filteredArrayNew);
+    } else {
+      $recipeList.innerHTML = "Aucune recette ne correspond à votre critère...";
+    }
+  }
+
+  if (searchString === "") {
+    renderRecipes(filteredArray);
+  }
+});
+
 //----APPLIANCE----
 appliance_dropdown.style.display = "none";
 appliance_dropdown_button.addEventListener("click", () => {
@@ -131,7 +186,6 @@ appliance_container.addEventListener("click", function (event) {
   buttonFilteringByAppliance.push(event.target.value);
   FilteringAll();
   // CREATE BUTTON
-
   const $applianceValueButton = document.createElement("button");
   $applianceValueButton.className = "appliance-value-button";
   const $applianceValue = document.createElement("span");
@@ -169,7 +223,6 @@ ustensils_dropdown_button.addEventListener("click", () => {
 });
 ustensil_container.addEventListener("click", function (event) {
   buttonFilteringByUstensils.push(event.target.value);
-
   FilteringAll();
   // CREATE BUTTON
   const $ustensilValueButton = document.createElement("button");
@@ -208,10 +261,8 @@ ingredients_dropdown_button.addEventListener("click", () => {
 });
 ingredient_container.addEventListener("click", function (event) {
   buttonFilteringByIngredients.push(event.target.value);
-
   FilteringAll();
   // CREATE BUTTON
-
   const $ingredientValueButton = document.createElement("button");
   $ingredientValueButton.className = "ingredient-value-button";
   const $ingredientValue = document.createElement("span");
