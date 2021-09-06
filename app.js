@@ -55,6 +55,59 @@ function filterSearchBar(data, value) {
   });
 }
 
+// export const searchBar = (filteredArray) => {
+//   const $searchBar = document.getElementById("searchBar");
+//   const arrayTest = [];
+//   $searchBar.addEventListener("keyup", (event) => {
+//     const searchString = event.target.value.toLowerCase();
+//     if (searchString.length > 2) {
+//       //Divide the array by 2
+//       const middleIndex = Math.ceil(filteredArray.length / 2);
+//       const firstHalf = filteredArray.slice().splice(0, middleIndex);
+//       const secondHalf = filteredArray.slice().splice(-middleIndex);
+//       //EO Divide the array by 2
+
+//       const filteredSearch1 = firstHalf.filter((recipe) => {
+//         return (
+//           recipe.name.toLowerCase().includes(searchString) ||
+//           recipe.description.toLowerCase().includes(searchString) ||
+//           recipe.ingredients
+//             .map((ingredient) => ingredient.ingredient.toLowerCase())
+//             .includes(searchString)
+//         );
+//       });
+//       const filteredSearch2 = secondHalf.filter((recipe) => {
+//         return (
+//           recipe.name.toLowerCase().includes(searchString) ||
+//           recipe.description.toLowerCase().includes(searchString) ||
+//           recipe.ingredients
+//             .map((ingredient) => ingredient.ingredient.toLowerCase())
+//             .includes(searchString)
+//         );
+//       });
+
+//       if (filteredSearch1.length > 0 || filteredSearch2.length > 0) {
+//         for (var i = 0; i < filteredSearch1.length; i++) {
+//           arrayTest.push(filteredSearch1[i]);
+//         }
+//         for (var t = 0; t < filteredSearch2.length; t++) {
+//           arrayTest.push(filteredSearch2[t]);
+//         }
+//       } else {
+//         $recipeList.innerHTML =
+//           "Aucune recette ne correspond à votre critère...";
+//       }
+//       const arrayTestSet = new Set(arrayTest);
+//       console.log(arrayTestSet);
+//       renderRecipes(arrayTestSet);
+//     }
+//     if (searchString === "") {
+//       renderRecipes(filteredArray);
+//       arrayTest.length = 0;
+//     }
+//   });
+// };
+
 //Set the dropdowns
 dropdownAppliance(filteredArray);
 dropdownUstensils(filteredArray);
@@ -170,6 +223,60 @@ ingredient_overlay.addEventListener("click", () => {
 
 //----ACTION THE SEARCH FUNCTIONS----
 //----SEARCH BAR----
+
+export const searchBar = (filteredArray) => {
+  const $searchBar = document.getElementById("searchBar");
+  const arrayTest = [];
+  $searchBar.addEventListener("keyup", (event) => {
+    const searchString = event.target.value.toLowerCase();
+    if (searchString.length > 2) {
+      //Divide the array by 2
+      const middleIndex = Math.ceil(filteredArray.length / 2);
+      const firstHalf = filteredArray.slice().splice(0, middleIndex);
+      const secondHalf = filteredArray.slice().splice(-middleIndex);
+      //EO Divide the array by 2
+
+      const filteredSearch1 = firstHalf.filter((recipe) => {
+        return (
+          recipe.name.toLowerCase().includes(searchString) ||
+          recipe.description.toLowerCase().includes(searchString) ||
+          recipe.ingredients
+            .map((ingredient) => ingredient.ingredient.toLowerCase())
+            .includes(searchString)
+        );
+      });
+      const filteredSearch2 = secondHalf.filter((recipe) => {
+        return (
+          recipe.name.toLowerCase().includes(searchString) ||
+          recipe.description.toLowerCase().includes(searchString) ||
+          recipe.ingredients
+            .map((ingredient) => ingredient.ingredient.toLowerCase())
+            .includes(searchString)
+        );
+      });
+
+      if (filteredSearch1.length > 0 || filteredSearch2.length > 0) {
+        for (var i = 0; i < filteredSearch1.length; i++) {
+          arrayTest.push(filteredSearch1[i]);
+        }
+        for (var t = 0; t < filteredSearch2.length; t++) {
+          arrayTest.push(filteredSearch2[t]);
+        }
+      } else {
+        $recipeList.innerHTML =
+          "Aucune recette ne correspond à votre critère...";
+      }
+      const arrayTestSet = new Set(arrayTest);
+      console.log(arrayTestSet);
+      renderRecipes(arrayTestSet);
+    }
+    if (searchString === "") {
+      renderRecipes(filteredArray);
+      arrayTest.length = 0;
+    }
+  });
+};
+
 $searchBar.addEventListener("keyup", (event) => {
   const searchString = event.target.value.toLowerCase();
   if (searchString.length > 2) {
@@ -203,9 +310,24 @@ $searchBar.addEventListener("keyup", (event) => {
         buttonFilteringByIngredients[i]
       );
     }
+
+    //Divide the array by 2
+    const middleIndex = Math.ceil(filteredArrayNew.length / 2);
+    const firstHalf = filteredArrayNew.slice().splice(0, middleIndex);
+    const secondHalf = filteredArrayNew.slice().splice(-middleIndex);
+    //EO Divide the array by 2
+    console.log(11, firstHalf);
+    console.log(22, secondHalf);
+
     for (let i = 0; i < filteredArraySearchNewFormat2.length; i++) {
       filteredArrayNew = filterSearchBar(
-        filteredArrayNew,
+        firstHalf,
+        filteredArraySearchNewFormat2[i]
+      );
+    }
+    for (let i = 0; i < filteredArraySearchNewFormat2.length; i++) {
+      filteredArrayNew = filterSearchBar(
+        secondHalf,
         filteredArraySearchNewFormat2[i]
       );
     }
