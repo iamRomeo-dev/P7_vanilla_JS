@@ -42,7 +42,17 @@ export function renderRecipe(recipe) {
   recipe.ingredients.forEach(({ ingredient, quantity, unit }) => {
     const $recipeIngredientListItem = document.createElement("li");
     $recipeIngredientListItem.className = "recipe-ingredient-list-item";
-    $recipeIngredientListItem.textContent = `${ingredient} : ${quantity}${unit}`;
+    if (unit === undefined) {
+      $recipeIngredientListItem.textContent = `${ingredient} : ${quantity}`;
+    }
+    if (quantity === undefined) {
+      $recipeIngredientListItem.textContent = `${ingredient}`;
+    }
+    if (ingredient != undefined && quantity != undefined && unit != undefined) {
+      $recipeIngredientListItem.textContent = `${ingredient} : ${quantity}${unit}`;
+    }
+    console.log(ingredient);
+
     $recipeIngredientList.appendChild($recipeIngredientListItem);
   });
 
